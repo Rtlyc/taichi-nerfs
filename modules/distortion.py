@@ -1,6 +1,16 @@
-import taichi as ti
 import torch
-from torch import Tensor
+import taichi as ti
+
+# TODO: Improve the efficiency of the distortion
+# loss by utilizing shared memory to implement
+# a prefix sum or scan kernel.
+
+def distortion_loss(results):
+    return DistortionLoss.apply(
+        results['ws'], results['deltas'],
+        results['ts'], results['rays_a']
+    )
+
 
 @ti.kernel
 def prefix_sums_kernel(
